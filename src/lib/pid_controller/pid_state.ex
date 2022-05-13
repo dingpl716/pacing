@@ -5,7 +5,7 @@ defmodule Pacing.PIDState do
             kf: 0,
             last_input: 0,
             error_sum: 0,
-            controller_id: "",
+            campaign_id: {},
             delivered_impression: 0,
             target_impression: 0,
             start_time: 0,

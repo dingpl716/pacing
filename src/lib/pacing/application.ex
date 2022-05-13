@@ -5,10 +5,13 @@ defmodule Pacing.Application do
 
   use Application
 
+  alias Pacing.PIDSupervisor
+
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Pacing.Worker.start_link(arg)
       # {Pacing.Worker, arg}
+      PIDSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

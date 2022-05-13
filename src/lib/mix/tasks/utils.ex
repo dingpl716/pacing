@@ -34,7 +34,7 @@ defmodule Pacing.SimulateUtils do
     if :rand.uniform() <= impression_rate do
       Task.async(fn ->
         # Process.sleep(:random.uniform(5000))
-        PIDController.deliver_impression(pid_controller)
+        PIDController.add_delivered_impression(pid_controller)
       end)
     end
   end

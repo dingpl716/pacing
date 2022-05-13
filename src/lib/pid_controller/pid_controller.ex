@@ -21,17 +21,37 @@ defmodule Pacing.PIDController do
     GenServer.call(server, {:set_end_time, end_time})
   end
 
-  @spec deliver_impression(atom | pid | {atom, any} | {:via, atom, any}) :: number
-  def deliver_impression(server) do
-    GenServer.call(server, :deliver_impression)
+  @doc """
+  Report an impression has been successfully delivered.
+  """
+  @spec add_delivered_impression(atom | pid | {atom, any} | {:via, atom, any}) :: number
+  def add_delivered_impression(server) do
+    GenServer.call(server, :add_delivered_impression)
   end
 
+  @doc """
+  Get the current round of output from PID controller.
+
+  ## Parameters
+
+    - tick_seconds: The number of seconds to move state forward after this round. Only
+    set this parameter when doing simulation, omit it in production.
+
+  """
   @spec get_output(atom | pid | {atom, any} | {:via, atom, any}, number | nil) :: any
   def get_output(server, tick_seconds \\ nil) do
     GenServer.call(server, {:get_output, tick_seconds})
   end
 
-  # Determines whether it should fill an ad request in this round.
+  @doc """
+  Determines whether it should fill an ad request in this round.
+
+  ## Parameters
+
+    - tick_seconds: The number of seconds to move state forward after this round. Only
+    set this parameter when doing simulation, omit it in production.
+
+  """
   @spec should_fill?(atom | pid | {atom, any} | {:via, atom, any}, number | nil) :: boolean
   def should_fill?(server, tick_seconds \\ nil) do
     GenServer.call(server, {:should_fill, tick_seconds})
@@ -50,7 +70,7 @@ defmodule Pacing.PIDController do
     {:reply, :ok, %{state | end_time: end_time}}
   end
 
-  def handle_call(:deliver_impression, _caller, state) do
+  def handle_call(:add_delivered_impression, _caller, state) do
     delivered_impression = state.delivered_impression + 1
     # datetime = state.current_time |> DateTime.from_unix!() |> DateTime.to_iso8601()
     # actual_velocity = state.delivered_impression / (state.current_time - state.start_time)
@@ -80,6 +100,7 @@ defmodule Pacing.PIDController do
         end
     end
   end
+
 
   defp calculate_output(%PIDState{} = state, tick_seconds) do
     setpoint = state.target_impression / (state.end_time - state.start_time)
