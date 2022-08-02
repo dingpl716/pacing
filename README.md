@@ -19,3 +19,5 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/pacing](https://hexdocs.pm/pacing).
 
+## Design
+[Link](https://docs.google.com/presentation/d/107nLko08f0Qs4Bp96nWM2pObptnLkj_tUjgiqPACIZ0/edit#slide=id.g1432527e130_0_0)
